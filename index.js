@@ -68,14 +68,14 @@ export default function vitePluginCdnLink(options) {
           const filePath = normalizePath(fileFullPath);
           const ourDirFilePath = filePath.split(outDirPath)[1]; // eg: '/assets/vendor.bfb92b77.js'
           const fileContent = fs.readFileSync(filePath, "utf8");
-          const regex = new RegExp(`["|'](\/${options.staticPrefix ?? "static"}\/[^"|']+)`, 'g');
+          const regex = new RegExp(`(["|'])(\/${options.staticPrefix ?? "static"}\/[^"|']+)`, 'g');
           const newContent = fileContent.replace(
             regex,
-            //`${options.cdnPrefix}$1"`
-            (match, p1) => {
-              //console.log(`${match},${p1},${options.cdnPrefix}${p1},`)
+            //`$1${options.cdnPrefix}$2"`
+            (match, p1, p2) => {
+              //console.log(`${match},${p1},${p1}${options.cdnPrefix}${p2},`)
               count.replace++;
-              return `${options.cdnPrefix}${p1}`;
+              return `${p1}${options.cdnPrefix}${p2}`;
             }
           );
           if (newContent !== fileContent) {
