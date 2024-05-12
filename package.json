@@ -1,6 +1,6 @@
 {
 	"name": "vite-plugin-cdn-link",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"type": "module",
 	"author": "HiTeochew",
 	"description": "vite public静态资源使用cdn地址",
