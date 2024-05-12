@@ -36,9 +36,11 @@ export default function vitePluginCdnLink(options) {
         const ssrClient = buildConfig.ssrManifest;
         const ssrServer = buildConfig.ssr;
 
-        const files = globSync(outDirPath + "/**/*", {
+        const files = globSync("**", {
           nodir: true,
           dot: true,
+          absolute: true,
+          cwd: outDirPath,
           ignore:
             // custom ignore
             options.ignore !== undefined
@@ -66,8 +68,9 @@ export default function vitePluginCdnLink(options) {
           const filePath = normalizePath(fileFullPath);
           const ourDirFilePath = filePath.split(outDirPath)[1]; // eg: '/assets/vendor.bfb92b77.js'
           const fileContent = fs.readFileSync(filePath, "utf8");
+          const regex = new RegExp(`["|'](\/${options.staticPrefix ?? "static"}\/[^"|']+)`, 'g');
           const newContent = fileContent.replace(
-            `/["|'](\/${options.staticPrefix ?? "static"}\/[^"|']+)/g`,
+            regex,
             //`${options.cdnPrefix}$1"`
             (match, p1) => {
               //console.log(`${match},${p1},${options.cdnPrefix}${p1},`)
