@@ -33,6 +33,7 @@ jobs:
         with:
           node-version: 18
           registry-url: https://npm.pkg.github.com/
+          registry: https://npm.pkg.github.com/
       - run: npm install
       - run: npm publish --no-git-checks
         env:
